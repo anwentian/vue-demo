@@ -1,0 +1,108 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>style</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="js/jquery-1.7.2.js"></script>
+        <script src="js/bootstrap.js"></script>      
+        <script src="js/vue.js"></script>
+    </head>
+    <body>
+        <div class="container" id="demo">
+            <form>
+                <div class="form-group">
+                    <label for="username">Name</label>
+                    <input  type="text" class="form-control" id="username" placeholder="please input youe name" v-model="username">
+                </div>
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input  type="text" class="form-control" id="age" placeholder="please input youe name" v-model="age">
+                </div>
+                <div class="form-group">
+                    <input type="button" value="添加" class="btn btn-primary" v-on:click="addInfo()">
+                    <input type="reset" value="重置" class="btn btn-danger">
+                </div>
+            </form>
+            <table class="table table-hover .table-condensed table-bordered">
+                <caption class="text-center">用户名单</caption>
+                <thead >
+                    <td>序号</td>
+                    <td>用户名</td>
+                    <td>年龄</td>
+                    <td>操作</td>
+                </thead>
+                <tbody>
+                <tr v-for = "userInfo in usersInfo">
+                    <td>{{$index + 1}}</td>
+                    <td>{{userInfo.username}}</td>
+                    <td>{{userInfo.age}}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" v-on:click="nowIndex=$index" data-toggle="modal" data-target="#myModal">删除数据</button>
+                    </td>
+                </tr>
+                
+                <tr v-show = "usersInfo.length == 0">
+                    <td colspan="4" class="text-center">暂没有数据...</td>
+                </tr>
+                <tr v-show = "usersInfo.length !== 0">
+                        <td colspan="4" class="text-left">
+                            <button class = "btn btn-danger" v-on:click = "nowIndex=-2" data-toggle="modal" data-target="#myModal">
+                                删除全部
+                            </button>
+                        </td>
+                    </tr>
+                <tbody>
+            </table>
+
+            <!-- 模态框 -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title">是否确认删除</h4>
+                        </div>
+                        <div class="modal-body">
+                          是否要删除数据
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                          <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click = " deletInfo(nowIndex)">确认</button>
+                        </div>
+                      </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                  </div><!-- /.modal -->
+        </div>
+
+        <script>
+            var vm = new Vue({
+                el: "#demo",               
+                data: {
+                    nowIndex: -1,
+                    username:'',
+                    age:"",
+                    usersInfo: [
+                    {username: "aa", age: 22},
+                    {username: "bb", age: 18}
+                    ]
+                },
+                methods:{
+                    addInfo: function(){
+                        this.usersInfo.push({
+                            username:this.username,
+                            age:this.age
+                        });
+                    },
+                    deletInfo: function(n){
+                        if( n == -2 ){
+                            this.usersInfo = [];
+                        }else{
+                            this.usersInfo.splice(n,1);
+                        }                      
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
