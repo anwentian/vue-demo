@@ -90,6 +90,14 @@
                 },
                 methods:{
                     addInfo: function(){
+                        if(this.username == ""){
+                            alert("please input youe name");
+                            return;
+                        }else if(this.age == ""){
+                            alert("please input youe age");
+                            return;
+                        }
+                        
                         this.usersInfo.push({
                             username:this.username,
                             age:this.age
